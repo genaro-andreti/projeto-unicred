@@ -55,13 +55,11 @@ public class AssociadoController {
 			StatusCpf statusCpf = validaCpfService.validaCpf(associadoCadastro.getCpf());
 			
 			if(!StatusCpfEnum.ABLE_TO_VOTE.toString().equals(statusCpf.getStatus())) {
-				response.getErrors().add("Cpf inválido.");
-				return ResponseEntity.badRequest().body(response);
+				return ResponseEntity.notFound().build();
 			}
 			
 		} catch (Exception e) {
-				response.getErrors().add("Erro ao validar cpf.");
-				return ResponseEntity.badRequest().body(response);
+				return ResponseEntity.notFound().build();
 		}
 		
 		Associado retorno = associadoService.cadastrar(associadoCadastro);

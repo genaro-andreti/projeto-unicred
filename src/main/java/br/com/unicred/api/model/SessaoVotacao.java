@@ -101,11 +101,20 @@ public class SessaoVotacao {
 	}
 
 	public Boolean sessaoFechada() {
-		if(this.fimSessaoVotacao != null && this.fimSessaoVotacao != null) {
+		if(this.inicioSessaoVotacao != null && this.fimSessaoVotacao != null) {
 			LocalDateTime now = LocalDateTime.now();
-			Boolean isInicioBeforeOrEqual = this.fimSessaoVotacao.isBefore(now) || this.fimSessaoVotacao.isEqual(now);
-			Boolean isFimAfterOrEqual = this.fimSessaoVotacao.isAfter(now) || this.fimSessaoVotacao.isEqual(now);
-			return isInicioBeforeOrEqual && isFimAfterOrEqual;
+			Boolean isInicioBeforeOrEqual = now.isBefore(this.inicioSessaoVotacao) || this.inicioSessaoVotacao.isEqual(now);
+			Boolean isFimAfterOrEqual = now.isAfter(this.fimSessaoVotacao) || this.fimSessaoVotacao.isEqual(now);
+			return isInicioBeforeOrEqual || isFimAfterOrEqual;
+		}
+		return Boolean.FALSE;
+	}
+	
+	public Boolean sessaoEncerrada() {
+		if(this.fimSessaoVotacao != null) {
+			LocalDateTime now = LocalDateTime.now();
+			Boolean isFimAfterOrEqual = now.isAfter(this.fimSessaoVotacao) || this.fimSessaoVotacao.isEqual(now);
+			return isFimAfterOrEqual;
 		}
 		return Boolean.FALSE;
 	}
